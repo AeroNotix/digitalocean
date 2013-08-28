@@ -36,7 +36,7 @@ var droplets_get_response_good = `
     ]
 }`
 
-func TestDroplets(t *testing.T) {
+func TestGetDroplets(t *testing.T) {
 	httpTestsSetUp(func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(droplets_get_response_good))
 	})
