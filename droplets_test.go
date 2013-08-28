@@ -45,3 +45,13 @@ func TestGetDroplets(t *testing.T) {
 		t.Error(err.Error())
 	}
 }
+
+func TestFailGetDroplets(t *testing.T) {
+	httpTestsSetUp(func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(`not_json`))
+	})
+	_, err := Droplets()
+	if err == nil {
+		t.Error(`Droplets() failed to handle receiving invalid data`)
+	}
+}
