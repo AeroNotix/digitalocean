@@ -57,3 +57,20 @@ func Droplets() ([]Droplet, error) {
 	}
 	return nil, err
 }
+
+func DropletByID(id int64) (*Droplet, error) {
+	type Request struct {
+		Status  string
+		Droplet Droplet
+	}
+	resp, err := baserequest(
+		fmt.Sprintf(Endpoint, fmt.Sprintf("%d", id)), &Request{},
+	)
+	if err != nil {
+		return nil, err
+	}
+	if val, ok := resp.(*Request); ok {
+		return &val.Droplet, nil
+	}
+	return nil, err
+}
