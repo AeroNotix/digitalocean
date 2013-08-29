@@ -44,32 +44,32 @@ func baserequest(URL string, Type interface{}) (interface{}, error) {
 }
 
 func Droplets() ([]Droplet, error) {
-	type Request struct {
+	type Response struct {
 		Status   string
 		Droplets []Droplet
 	}
-	resp, err := baserequest(fmt.Sprintf(Endpoint, ""), &Request{})
+	resp, err := baserequest(fmt.Sprintf(Endpoint, ""), &Response{})
 	if err != nil {
 		return nil, err
 	}
-	if val, ok := resp.(*Request); ok {
+	if val, ok := resp.(*Response); ok {
 		return val.Droplets, nil
 	}
 	return nil, err
 }
 
 func DropletByID(id int64) (*Droplet, error) {
-	type Request struct {
+	type Response struct {
 		Status  string
 		Droplet Droplet
 	}
 	resp, err := baserequest(
-		fmt.Sprintf(Endpoint, fmt.Sprintf("%d", id)), &Request{},
+		fmt.Sprintf(Endpoint, fmt.Sprintf("%d", id)), &Response{},
 	)
 	if err != nil {
 		return nil, err
 	}
-	if val, ok := resp.(*Request); ok {
+	if val, ok := resp.(*Response); ok {
 		return &val.Droplet, nil
 	}
 	return nil, err
