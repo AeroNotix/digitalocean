@@ -41,9 +41,6 @@ func baserequest(URL string, Type interface{}) (interface{}, error) {
 		return nil, err
 	}
 	err = json.Unmarshal(b, Type)
-	if err != nil {
-		return nil, err
-	}
 	return Type, nil
 }
 
