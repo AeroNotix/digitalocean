@@ -14,7 +14,6 @@ var (
 
 func Settings(ClientID, APIKey string) {
 	Endpoint = fmt.Sprintf(Endpoint, "%s", ClientID, APIKey)
-	fmt.Println(Endpoint)
 }
 
 type Droplet struct {
