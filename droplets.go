@@ -76,13 +76,13 @@ func DropletByID(id int64) (*Droplet, error) {
 	return nil, err
 }
 
-func RebootDroplet(id int64) error {
+func command_endpoint(id int64, command string) error {
 	type Response struct {
 		Status   string
 		Event_ID int
 	}
 	resp, err := baserequest(
-		fmt.Sprintf(Endpoint, fmt.Sprintf("%d/reboot", id)), &Response{},
+		fmt.Sprintf(Endpoint, fmt.Sprintf("%d/%s", id, command)), &Response{},
 	)
 	if err != nil {
 		return err
@@ -90,5 +90,29 @@ func RebootDroplet(id int64) error {
 	if _, ok := resp.(*Response); ok {
 		return nil
 	}
-	return errors.New("Invalid response from rebooting droplet.")
+	return errors.Errorf("Invalid response from endpoint: %s.", command)
+}
+
+func RebootDroplet(id int64) error {
+	return command_endpoint(id, "reboot")
+}
+
+func PowerCycleDroplet(id int64) error {
+	return command_endpoint(id, "power_cycle")
+}
+
+func ShutdownDroplet(id int64) error {
+	return command_endpoint(id, "shutdown")
+}
+
+func PowerOffDroplet(id int64) error {
+	return command_endpoint(id, "power_off")
+}
+
+func PowerOnDroplet(id int64) error {
+	return command_endpoint(id, "power_on")
+}
+
+func PasswordResetDroplet(id int64) error {
+	return command_endpoint(id, "password_reset")
 }
