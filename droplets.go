@@ -30,7 +30,7 @@ type Droplet struct {
 }
 
 func baserequest(URL string, Type interface{}) (interface{}, error) {
-	resp, err := http.Get(fmt.Sprintf(Endpoint, ""))
+	resp, err := http.Get(URL)
 	if err != nil {
 		return nil, err
 	}
