@@ -2,6 +2,7 @@ package digitalocean
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -73,4 +74,21 @@ func DropletByID(id int64) (*Droplet, error) {
 		return &val.Droplet, nil
 	}
 	return nil, err
+}
+
+func RebootDroplet(id int64) error {
+	type Response struct {
+		Status   string
+		Event_ID int
+	}
+	resp, err := baserequest(
+		fmt.Sprintf(Endpoint, fmt.Sprintf("%d/reboot", id)), &Response{},
+	)
+	if err != nil {
+		return err
+	}
+	if _, ok := resp.(*Response); ok {
+		return nil
+	}
+	return errors.New("Invalid response from rebooting droplet.")
 }
